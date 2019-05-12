@@ -171,5 +171,8 @@ export default {
     tagsView: 'Open Tags-View',
     fixedHeader: 'Fixed Header',
     sidebarLogo: 'Sidebar Logo'
+  },
+  message: {
+    defaultErrorMessage: 'error'
   }
 }
