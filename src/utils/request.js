@@ -8,7 +8,8 @@ import i18n from '@/lang'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  timeout: 5000, // request timeout
+  headers: { 'client_id': process.env.VUE_APP_CLIENT_ID, 'client_secret': process.env.VUE_APP_CLIENT_SECRET }
 })
 
 // request interceptor
@@ -44,6 +45,10 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
+    const assessToken = response.access_token
+    if (assessToken !== '') {
+      return response
+    }
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.

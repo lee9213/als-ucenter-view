@@ -10,9 +10,9 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: '/user/info',
+    url: '/sys/user/1/detail',
     method: 'get',
-    params: { token }
+    headers: { Authorization: token }
   })
 }
 

@@ -25,7 +25,7 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     // port: port,
-    // open: true,
+    open: true,
     // overlay: {
     //   warnings: false,
     //   errors: true
@@ -41,7 +41,7 @@ module.exports = {
     //       ['^' + process.env.VUE_APP_BASE_API]: ''
     //     }
     //   }
-    // },
+    // }
     //  after: require('./mock/mock-server.js')
   },
   configureWebpack: {
