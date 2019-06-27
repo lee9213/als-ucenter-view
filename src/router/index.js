@@ -55,19 +55,18 @@ export const constantRoutes = [
       meta: { title: i18n.t('route.dashboard'), icon: 'dashboard' }
     }]
   },
-
   {
-    path: '/example',
+    path: '/system',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: i18n.t('route.example'), icon: 'example' },
+    redirect: '/system/menu',
+    name: 'system',
+    meta: { title: i18n.t('route.system'), icon: 'example' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: i18n.t('route.Table'), icon: 'table' }
+        path: 'menu',
+        name: 'menu',
+        component: () => import('@/views/menu/index'),
+        meta: { title: i18n.t('route.menu'), icon: 'table' }
       },
       {
         path: 'tree',
@@ -77,6 +76,27 @@ export const constantRoutes = [
       }
     ]
   },
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: '/example/table',
+  //   name: 'Example',
+  //   meta: { title: i18n.t('route.example'), icon: 'example' },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: () => import('@/views/table/index'),
+  //       meta: { title: i18n.t('route.Table'), icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { title: i18n.t('route.Tree'), icon: 'tree' }
+  //     }
+  //   ]
+  // },
 
   {
     path: '/form',

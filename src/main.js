@@ -14,6 +14,7 @@ import router from './router'
 import i18n from './lang' // internationalization
 import '@/icons' // icon
 import '@/permission' // permission control
+import { isAuth } from '@/utils'
 
 /**
  * If you don't want to use mock-server
@@ -28,6 +29,7 @@ import '@/permission' // permission control
 Vue.use(ElementUI, { i18n: (key, value) => i18n.t(key, value) })
 
 Vue.config.productionTip = false
+Vue.prototype.isAuth = isAuth // 权限方法
 
 new Vue({
   el: '#app',

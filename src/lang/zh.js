@@ -63,7 +63,9 @@ export default {
     clipboardDemo: 'Clipboard',
     i18n: '国际化',
     externalLink: '外链',
-    profile: '个人中心'
+    profile: '个人中心',
+    system: '系统管理',
+    menu: '菜单管理'
   },
   navbar: {
     dashboard: '首页',
@@ -177,5 +179,17 @@ export default {
   },
   message: {
     defaultErrorMessage: '错误'
+  },
+  menu: {
+    table: {
+      name: '名称',
+      parentName: '上级菜单',
+      icon: '图标',
+      type: '类型',
+      url: '菜单URL'
+    },
+    manage: {
+      name: '操作'
+    }
   }
 }

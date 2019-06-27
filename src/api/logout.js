@@ -1,9 +1,8 @@
 import request from '@/utils/request'
 
-export function logout(token) {
+export function logout() {
   return request({
     url: '/logout',
-    method: 'post',
-    headers: { Authorization: token }
+    method: 'post'
   })
 }
