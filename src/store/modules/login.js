@@ -1,13 +1,11 @@
-import { login, logout, getInfo } from '@/api/user'
+import { loginUsername, getLoginUserInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
   name: '',
   avatar: ''
 }
-
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
@@ -21,11 +19,11 @@ const mutations = {
 }
 
 const actions = {
-  // user login
-  login({ commit }, userInfo) {
+  // login username
+  username({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      loginUsername({ username: username.trim(), password: password }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token_type + data.access_token)
         setToken(data.token_type + data.access_token)
@@ -37,34 +35,19 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  getUserInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      getLoginUserInfo(state.token).then(response => {
         const { data } = response
 
         if (!data) {
           reject('Verification failed, please Login again.')
         }
-
-        const { name, avatar } = data
+        const { name, icon } = data
 
         commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
+        commit('SET_AVATAR', icon)
         resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-
-  // user logout
-  logout({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
-        removeToken()
-        resetRouter()
-        resolve()
       }).catch(error => {
         reject(error)
       })

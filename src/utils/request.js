@@ -16,7 +16,6 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-
     if (store.getters.token) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
@@ -45,11 +44,11 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    const assessToken = response.access_token
-    if (assessToken !== '') {
+    const res = response.data
+    const assessToken = res.access_token
+    if (assessToken && assessToken !== '') {
       return response
     }
-    const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
     if (res.status !== 'SUCCESS') {
@@ -67,7 +66,7 @@ service.interceptors.response.use(
           cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
+          store.dispatch('login/resetToken').then(() => {
             location.reload()
           })
         })

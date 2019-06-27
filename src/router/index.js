@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import i18n from '@/lang'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -51,7 +52,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: i18n.t('route.dashboard'), icon: 'dashboard' }
     }]
   },
 
@@ -60,19 +61,19 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
+    meta: { title: i18n.t('route.example'), icon: 'example' },
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        meta: { title: i18n.t('route.Table'), icon: 'table' }
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        meta: { title: i18n.t('route.Tree'), icon: 'tree' }
       }
     ]
   },
@@ -85,7 +86,7 @@ export const constantRoutes = [
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        meta: { title: i18n.t('route.form'), icon: 'form' }
       }
     ]
   },
@@ -96,7 +97,7 @@ export const constantRoutes = [
     redirect: '/nested/menu1',
     name: 'Nested',
     meta: {
-      title: 'Nested',
+      title: i18n.t('route.nested'),
       icon: 'nested'
     },
     children: [
@@ -154,7 +155,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        meta: { title: i18n.t('route.externalLink'), icon: 'link' }
       }
     ]
   },
