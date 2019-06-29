@@ -1,4 +1,6 @@
-build/*.js
-src/assets
-public
-dist
+/build/
+/config/
+/dist/
+/*.js
+/test/unit/coverage/
+/src/icons/iconfont.js

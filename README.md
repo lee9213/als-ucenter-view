@@ -1,89 +1,76 @@
-# vue-admin-template
+## renren-fast-vue
+- renren-fast-vue基于vue、element-ui构建开发，实现[renren-fast](https://gitee.com/renrenio/renren-fast)后台管理前端功能，提供一套更优的前端解决方案
+- 前后端分离，通过token进行数据交互，可独立部署
+- 主题定制，通过scss变量统一一站式定制
+- 动态菜单，通过菜单管理统一管理访问路由
+- 数据切换，通过mock配置对接口数据／mock模拟数据进行切换
+- 发布时，可动态配置CDN静态资源／切换新旧版本
+- 演示地址：[http://fast.demo.renren.io](http://fast.demo.renren.io) (账号密码：admin/admin)
 
-English | [简体中文](./README-zh.md)
-
-> A minimal vue admin template with Element UI & axios & iconfont & permission control & lint
-
-**Live demo:** http://panjiachen.github.io/vue-admin-template
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0305/133529_ff15f192_63154.png "01.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0305/133537_7a1b2d85_63154.png "02.png")
 
 
-**The current version is `v4.0+` build on `vue-cli`. If you want to use the old version , you can switch branch to [tag/3.11.0](https://github.com/PanJiaChen/vue-admin-template/tree/tag/3.11.0), it does not rely on `vue-cli`**
+## 说明文档
+项目开发、部署等说明都在[wiki](https://github.com/renrenio/renren-fast-vue/wiki)中。
 
-## Build Setup
+
+## 更新日志
+每个版本的详细更改都记录在[release notes](https://github.com/renrenio/renren-fast-vue/releases)中。
 
 
-```bash
-# clone the project
-git clone https://github.com/PanJiaChen/vue-admin-template.git
 
-# enter the project directory
-cd vue-admin-template
+# 安装依赖
+# 1
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+# 2
+cnpm install
 
-# install dependency
-npm install
-
-# develop
+# 启动服务
 npm run dev
-```
 
-This will automatically open http://localhost:9527
+# 构建生产环境(默认)
+npm run build
 
-## Build
+# 构建测试环境
+npm run build --qa
 
-```bash
-# build for test environment
-npm run build:stage
+# 构建验收环境
+npm run build --uat
 
-# build for production environment
-npm run build:prod
-```
+# 构建生产环境
+npm run build --prod
 
-## Advanced
+开启mock本地模拟数据
+通过设置/src/mock/index.js)文件中fnCreate(common, [false])[]中括号中为true／false开启关闭当前模块mock本地模拟数据功能。（默认开启）
+通过设置/src/mock/modules/文件下模块isOpen: [false][]中括号中为true／false开启关闭当前api接口mock本地模拟数据功能。（默认开启）
 
-```bash
-# preview the release environment effect
-npm run preview
 
-# preview the release environment effect + static resource analysis
-npm run preview -- --report
+开发时，如何连接后台项目api接口？
+修改/static/config/index.js目录文件中 window.SITE_CONFIG['baseUrl'] = '本地api接口请求地址';
 
-# code format check
-npm run lint
+ 
 
-# code format check and auto fix
-npm run lint -- --fix
-```
+开发时，如何解决跨域？
+修改/config/dev.env.js目录文件中OPEN_PROXY: true开启代理
+修改/config/index.js目录文件中proxyTable对象target: '代理api接口请求地址'
+重启本地服务
+ 
 
-Refer to [Documentation](https://panjiachen.github.io/vue-element-admin-site/guide/essentials/deploy.html) for more information
+开发时，如何提前配置CDN静态资源？
+修改/static/config/index-[qa/uat/prod].js目录文件中window.SITE_CONFIG['domain'] = '静态资源cdn地址';
 
-## Demo
+ 
 
-![demo](https://github.com/PanJiaChen/PanJiaChen.github.io/blob/master/images/demo.gif)
+构建生成后，发布需要上传哪些文件？
+/dist目录下：1805021549（静态资源，18年05月03日15时49分）、config（配置文件）、index.html
 
-## Extra
+ 
 
-If you want router permission && generate menu by user roles , you can use this branch [permission-control](https://github.com/PanJiaChen/vue-admin-template/tree/permission-control)
+构建生成后，如何动态配置CDN静态资源？
+修改/dist/config/index.js目录文件中window.SITE_CONFIG['domain'] = '静态资源cdn地址';
 
-For `typescript` version, you can use [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template) (Credits: [@Armour](https://github.com/Armour))
+ 
 
-## Related Project
-
-[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
-
-[electron-vue-admin](https://github.com/PanJiaChen/electron-vue-admin)
-
-[vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template)
-
-## Browsers support
-
-Modern browsers and Internet Explorer 10+.
-
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
-| --------- | --------- | --------- | --------- |
-| IE10, IE11, Edge| last 2 versions| last 2 versions| last 2 versions
-
-## License
-
-[MIT](https://github.com/PanJiaChen/vue-admin-template/blob/master/LICENSE) license.
-
-Copyright (c) 2017-present PanJiaChen
+构建生成后，如何动态切换新旧版本？
+修改/dist/config/index.js目录文件中 window.SITE_CONFIG['version'] = '旧版本号';

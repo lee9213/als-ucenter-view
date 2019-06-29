@@ -1,21 +1,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import getters from './getters'
-import app from './modules/app'
-import settings from './modules/settings'
-import login from './modules/login'
-import logout from './modules/logout'
+import cloneDeep from 'lodash/cloneDeep'
+import common from './modules/common'
+import user from './modules/user'
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
+export default new Vuex.Store({
   modules: {
-    app,
-    settings,
-    login,
-    logout
+    common,
+    user
   },
-  getters
+  mutations: {
+    // 重置vuex本地储存状态
+    resetStore (state) {
+      Object.keys(state).forEach((key) => {
+        state[key] = cloneDeep(window.SITE_CONFIG['storeState'][key])
+      })
+    }
+  },
+  strict: process.env.NODE_ENV !== 'production'
 })
-
-export default store
