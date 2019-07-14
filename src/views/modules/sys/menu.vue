@@ -8,7 +8,7 @@
 
     <el-table
       :data="dataList"
-      row-key="menuId"
+      row-key="id"
       border
       style="width: 100%; ">
       <el-table-column
@@ -106,10 +106,11 @@
         this.dataListLoading = true
         this.$http({
           url: this.$http.adornUrl('/sys/menu/list'),
-          method: 'get',
+          method: 'post',
           params: this.$http.adornParams()
         }).then(({data}) => {
-          this.dataList = treeDataTranslate(data, 'menuId')
+          debugger
+          this.dataList = treeDataTranslate(data, 'id')
           this.dataListLoading = false
         })
       },

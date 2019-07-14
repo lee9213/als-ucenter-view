@@ -33,66 +33,67 @@
 </template>
 
 <script>
-  import { getUUID } from '@/utils'
-  export default {
-    data () {
-      return {
-        dataForm: {
-          userName: '',
-          password: '',
-          uuid: '',
-          captcha: ''
-        },
-        dataRule: {
-          userName: [
-            { required: true, message: '帐号不能为空', trigger: 'blur' }
-          ],
-          password: [
-            { required: true, message: '密码不能为空', trigger: 'blur' }
-          ],
-          captcha: [
-            { required: true, message: '验证码不能为空', trigger: 'blur' }
-          ]
-        },
-        captchaPath: ''
-      }
-    },
-    created () {
-      this.getCaptcha()
-    },
-    methods: {
-      // 提交表单
-      dataFormSubmit () {
-        this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
-            this.$http({
-              url: this.$http.adornUrl('/sys/login'),
-              method: 'post',
-              data: this.$http.adornData({
-                'username': this.dataForm.userName,
-                'password': this.dataForm.password,
-                'uuid': this.dataForm.uuid,
-                'captcha': this.dataForm.captcha
-              })
-            }).then(({data}) => {
-              if (data && data.code === 0) {
-                this.$cookie.set('token', data.token)
-                this.$router.replace({ name: 'home' })
-              } else {
-                this.getCaptcha()
-                this.$message.error(data.msg)
-              }
-            })
-          }
-        })
+import { getUUID } from '@/utils'
+export default {
+  data () {
+    return {
+      dataForm: {
+        userName: '',
+        password: '',
+        uuid: '',
+        captcha: ''
       },
-      // 获取验证码
-      getCaptcha () {
-        this.dataForm.uuid = getUUID()
-        this.captchaPath = this.$http.adornUrl(`/captcha?uuid=${this.dataForm.uuid}`)
-      }
+      dataRule: {
+        userName: [
+          { required: true, message: '帐号不能为空', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '密码不能为空', trigger: 'blur' }
+        ],
+        captcha: [
+          { required: true, message: '验证码不能为空', trigger: 'blur' }
+        ]
+      },
+      captchaPath: ''
+    }
+  },
+  created () {
+    this.getCaptcha()
+  },
+  methods: {
+    // 提交表单
+    dataFormSubmit () {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          this.$http({
+            url: this.$http.adornUrl('/login/username'),
+            method: 'post',
+            headers: { 'client_id': process.env.CLIENT_ID, 'client_secret': process.env.CLIENT_SECRET },
+            data: this.$http.adornData({
+              'username': this.dataForm.userName,
+              'password': this.dataForm.password,
+              'uuid': this.dataForm.uuid,
+              'code': this.dataForm.captcha
+            })
+          }).then(({data}) => {
+            if (data && data.token_type && data.access_token) {
+              this.$cookie.set('token', data.token_type + data.access_token)
+              this.$router.replace({ name: 'home' })
+            } else {
+              this.getCaptcha()
+              this.$message.error(data.errorMessage)
+            }
+          })
+        }
+      })
+    },
+    // 获取验证码
+    getCaptcha () {
+      this.dataForm.uuid = getUUID()
+      this.captchaPath = this.$http.adornUrl(`/captcha/${this.dataForm.uuid}`)
     }
   }
+}
 </script>
 
 <style lang="scss">

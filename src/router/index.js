@@ -64,13 +64,15 @@ router.beforeEach((to, from, next) => {
   } else {
     http({
       url: http.adornUrl('/sys/menu/list'),
-      method: 'get',
+      method: 'post',
       params: http.adornParams()
     }).then(({data}) => {
-      if (data && data.code === 0) {
-        fnAddDynamicMenuRoutes(data.menuList)
+      if (data && data.status === 200) {
+        debugger
+        const menuList = data.data
+        fnAddDynamicMenuRoutes(menuList)
         router.options.isAddDynamicMenuRoutes = true
-        sessionStorage.setItem('menuList', JSON.stringify(data.menuList || '[]'))
+        sessionStorage.setItem('menuList', JSON.stringify(menuList || '[]'))
         sessionStorage.setItem('permissions', JSON.stringify(data.permissions || '[]'))
         next({ ...to, replace: true })
       } else {
@@ -118,7 +120,7 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
         component: null,
         name: menuList[i].url.replace('/', '-'),
         meta: {
-          menuId: menuList[i].menuId,
+          menuId: menuList[i].id,
           title: menuList[i].name,
           isDynamic: true,
           isTab: true,
@@ -127,8 +129,8 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
       }
       // url以http[s]://开头, 通过iframe展示
       if (isURL(menuList[i].url)) {
-        route['path'] = `i-${menuList[i].menuId}`
-        route['name'] = `i-${menuList[i].menuId}`
+        route['path'] = `i-${menuList[i].id}`
+        route['name'] = `i-${menuList[i].id}`
         route['meta']['iframeUrl'] = menuList[i].url
       } else {
         try {

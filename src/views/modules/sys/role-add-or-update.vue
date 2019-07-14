@@ -57,7 +57,7 @@
         this.dataForm.id = id || 0
         this.$http({
           url: this.$http.adornUrl('/sys/menu/list'),
-          method: 'get',
+          method: 'post',
           params: this.$http.adornParams()
         }).then(({data}) => {
           this.menuList = treeDataTranslate(data, 'menuId')

@@ -504,7 +504,7 @@ export function nav () {
   return {
     // isOpen: false,
     url: '/sys/menu/list',
-    type: 'get',
+    type: 'post',
     data: {
       'msg': 'success',
       'code': 0,
@@ -553,7 +553,7 @@ export function list () {
   return {
     // isOpen: false,
     url: '/sys/menu/list',
-    type: 'get',
+    type: 'post',
     data: dataList
   }
 }
