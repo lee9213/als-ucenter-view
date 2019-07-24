@@ -57,12 +57,19 @@ export default {
       captchaPath: ''
     }
   },
+  watch: {
+    '$route' (to, from) {
+      console.log(1111)
+      this.getCaptcha()
+    }
+  },
   created () {
     this.getCaptcha()
   },
   methods: {
     // 提交表单
     dataFormSubmit () {
+      this.refresh = false
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           this.$http({

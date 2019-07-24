@@ -16,7 +16,7 @@ for (let i = 0; i < Math.floor(Math.random() * 10 + 1); i++) {
 }
 var scheduleDataList = []
 for (let i = 0; i < Math.floor(Math.random() * 10 + 1); i++) {
-  let name = Mock.Random.name()
+  const name = Mock.Random.name()
   scheduleDataList.push(Mock.mock({
     'logId': '@increment',
     'jobId': '@increment(1000)',
@@ -31,7 +31,7 @@ for (let i = 0; i < Math.floor(Math.random() * 10 + 1); i++) {
 }
 
 // 获取日志列表
-export function list () {
+export function list() {
   return {
     // isOpen: false,
     url: '/sys/log/list',
@@ -51,7 +51,7 @@ export function list () {
 }
 
 // 获取定时任务日志列表
-export function scheduleList () {
+export function scheduleList() {
   return {
     // isOpen: false,
     url: '/sys/scheduleLog/list',
@@ -71,8 +71,8 @@ export function scheduleList () {
 }
 
 // 获取定时任务日志信息
-export function scheduleInfo () {
-  let name = Mock.Random.name()
+export function scheduleInfo() {
+  const name = Mock.Random.name()
   return {
     // isOpen: false,
     url: '/sys/scheduleLog/info',

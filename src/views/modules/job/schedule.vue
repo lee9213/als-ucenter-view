@@ -108,7 +108,11 @@
   import AddOrUpdate from './schedule-add-or-update'
   import Log from './schedule-log'
   export default {
-    data () {
+    components: {
+      AddOrUpdate,
+      Log
+    },
+    data() {
       return {
         dataForm: {
           beanName: ''
@@ -123,16 +127,12 @@
         logVisible: false
       }
     },
-    components: {
-      AddOrUpdate,
-      Log
-    },
-    activated () {
+    activated() {
       this.getDataList()
     },
     methods: {
       // 获取数据列表
-      getDataList () {
+      getDataList() {
         this.dataListLoading = true
         this.$http({
           url: this.$http.adornUrl('/sys/schedule/list'),
@@ -142,7 +142,7 @@
             'limit': this.pageSize,
             'beanName': this.dataForm.beanName
           })
-        }).then(({data}) => {
+        }).then(({ data }) => {
           if (data && data.code === 0) {
             this.dataList = data.page.list
             this.totalPage = data.page.totalCount
@@ -154,29 +154,29 @@
         })
       },
       // 每页数
-      sizeChangeHandle (val) {
+      sizeChangeHandle(val) {
         this.pageSize = val
         this.pageIndex = 1
         this.getDataList()
       },
       // 当前页
-      currentChangeHandle (val) {
+      currentChangeHandle(val) {
         this.pageIndex = val
         this.getDataList()
       },
       // 多选
-      selectionChangeHandle (val) {
+      selectionChangeHandle(val) {
         this.dataListSelections = val
       },
       // 新增 / 修改
-      addOrUpdateHandle (id) {
+      addOrUpdateHandle(id) {
         this.addOrUpdateVisible = true
         this.$nextTick(() => {
           this.$refs.addOrUpdate.init(id)
         })
       },
       // 删除
-      deleteHandle (id) {
+      deleteHandle(id) {
         var ids = id ? [id] : this.dataListSelections.map(item => {
           return item.jobId
         })
@@ -189,7 +189,7 @@
             url: this.$http.adornUrl('/sys/schedule/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
-          }).then(({data}) => {
+          }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$message({
                 message: '操作成功',
@@ -206,7 +206,7 @@
         }).catch(() => {})
       },
       // 暂停
-      pauseHandle (id) {
+      pauseHandle(id) {
         var ids = id ? [id] : this.dataListSelections.map(item => {
           return item.jobId
         })
@@ -219,7 +219,7 @@
             url: this.$http.adornUrl('/sys/schedule/pause'),
             method: 'post',
             data: this.$http.adornData(ids, false)
-          }).then(({data}) => {
+          }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$message({
                 message: '操作成功',
@@ -236,7 +236,7 @@
         }).catch(() => {})
       },
       // 恢复
-      resumeHandle (id) {
+      resumeHandle(id) {
         var ids = id ? [id] : this.dataListSelections.map(item => {
           return item.jobId
         })
@@ -249,7 +249,7 @@
             url: this.$http.adornUrl('/sys/schedule/resume'),
             method: 'post',
             data: this.$http.adornData(ids, false)
-          }).then(({data}) => {
+          }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$message({
                 message: '操作成功',
@@ -266,7 +266,7 @@
         }).catch(() => {})
       },
       // 立即执行
-      runHandle (id) {
+      runHandle(id) {
         var ids = id ? [id] : this.dataListSelections.map(item => {
           return item.jobId
         })
@@ -279,7 +279,7 @@
             url: this.$http.adornUrl('/sys/schedule/run'),
             method: 'post',
             data: this.$http.adornData(ids, false)
-          }).then(({data}) => {
+          }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$message({
                 message: '操作成功',
@@ -296,7 +296,7 @@
         }).catch(() => {})
       },
       // 日志列表
-      logHandle () {
+      logHandle() {
         this.logVisible = true
         this.$nextTick(() => {
           this.$refs.log.init()
