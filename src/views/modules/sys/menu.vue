@@ -15,7 +15,7 @@
         prop="name"
         header-align="center"
         min-width="150"
-        label="名称" >
+        label="名称">
       </el-table-column>
       <el-table-column
         prop="parentName"
@@ -86,7 +86,10 @@
   import AddOrUpdate from './menu-add-or-update'
   import { treeDataTranslate } from '@/utils'
   export default {
-    data () {
+    components: {
+      AddOrUpdate
+    },
+    data() {
       return {
         dataForm: {},
         dataList: [],
@@ -94,35 +97,32 @@
         addOrUpdateVisible: false
       }
     },
-    components: {
-      AddOrUpdate
-    },
-    activated () {
+    activated() {
       this.getDataList()
     },
     methods: {
       // 获取数据列表
-      getDataList () {
+      getDataList() {
         this.dataListLoading = true
         this.$http({
           url: this.$http.adornUrl('/sys/menu/list'),
           method: 'post',
           params: this.$http.adornParams()
-        }).then(({data}) => {
+        }).then(({ data }) => {
           debugger
           this.dataList = treeDataTranslate(data, 'id')
           this.dataListLoading = false
         })
       },
       // 新增 / 修改
-      addOrUpdateHandle (id) {
+      addOrUpdateHandle(id) {
         this.addOrUpdateVisible = true
         this.$nextTick(() => {
           this.$refs.addOrUpdate.init(id)
         })
       },
       // 删除
-      deleteHandle (id) {
+      deleteHandle(id) {
         this.$confirm(`确定对[id=${id}]进行[删除]操作?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -132,7 +132,7 @@
             url: this.$http.adornUrl(`/sys/menu/delete/${id}`),
             method: 'post',
             data: this.$http.adornData()
-          }).then(({data}) => {
+          }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$message({
                 message: '操作成功',

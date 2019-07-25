@@ -3,7 +3,7 @@
     :title="!dataForm.id ? '新增' : '修改'"
     :close-on-click-modal="false"
     :visible.sync="visible">
-    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    <el-form ref="dataForm" :model="dataForm" label-width="80px" :rules="dataRule" @keyup.enter.native="dataFormSubmit()">
       <el-form-item label="角色名称" prop="roleName">
         <el-input v-model="dataForm.roleName" placeholder="角色名称"></el-input>
       </el-form-item>
@@ -12,10 +12,10 @@
       </el-form-item>
       <el-form-item size="mini" label="授权">
         <el-tree
+          ref="menuListTree"
           :data="menuList"
           :props="menuListTreeProps"
           node-key="menuId"
-          ref="menuListTree"
           :default-expand-all="true"
           show-checkbox>
         </el-tree>
@@ -31,7 +31,7 @@
 <script>
   import { treeDataTranslate } from '@/utils'
   export default {
-    data () {
+    data() {
       return {
         visible: false,
         menuList: [],
@@ -53,13 +53,13 @@
       }
     },
     methods: {
-      init (id) {
+      init(id) {
         this.dataForm.id = id || 0
         this.$http({
           url: this.$http.adornUrl('/sys/menu/list'),
           method: 'post',
           params: this.$http.adornParams()
-        }).then(({data}) => {
+        }).then(({ data }) => {
           this.menuList = treeDataTranslate(data, 'menuId')
         }).then(() => {
           this.visible = true
@@ -73,7 +73,7 @@
               url: this.$http.adornUrl(`/sys/role/info/${this.dataForm.id}`),
               method: 'get',
               params: this.$http.adornParams()
-            }).then(({data}) => {
+            }).then(({ data }) => {
               if (data && data.code === 0) {
                 this.dataForm.roleName = data.role.roleName
                 this.dataForm.remark = data.role.remark
@@ -88,7 +88,7 @@
         })
       },
       // 表单提交
-      dataFormSubmit () {
+      dataFormSubmit() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
@@ -100,7 +100,7 @@
                 'remark': this.dataForm.remark,
                 'menuIdList': [].concat(this.$refs.menuListTree.getCheckedKeys(), [this.tempKey], this.$refs.menuListTree.getHalfCheckedKeys())
               })
-            }).then(({data}) => {
+            }).then(({ data }) => {
               if (data && data.code === 0) {
                 this.$message({
                   message: '操作成功',

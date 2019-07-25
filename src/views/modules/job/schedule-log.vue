@@ -13,9 +13,9 @@
       </el-form-item>
     </el-form>
     <el-table
+      v-loading="dataListLoading"
       :data="dataList"
       border
-      v-loading="dataListLoading"
       height="460"
       style="width: 100%;">
       <el-table-column
@@ -57,7 +57,7 @@
         label="状态">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status === 0" size="small">成功</el-tag>
-          <el-tag v-else @click.native="showErrorInfo(scope.row.logId)" size="small" type="danger" style="cursor: pointer;">失败</el-tag>
+          <el-tag v-else style="cursor: pointer;" size="small" type="danger" @click.native="showErrorInfo(scope.row.logId)">失败</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -75,20 +75,20 @@
       </el-table-column>
     </el-table>
     <el-pagination
-      @size-change="sizeChangeHandle"
-      @current-change="currentChangeHandle"
       :current-page="pageIndex"
       :page-sizes="[10, 20, 50, 100]"
       :page-size="pageSize"
       :total="totalPage"
-      layout="total, sizes, prev, pager, next, jumper">
+      layout="total, sizes, prev, pager, next, jumper"
+      @size-change="sizeChangeHandle"
+      @current-change="currentChangeHandle">
     </el-pagination>
   </el-dialog>
 </template>
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         visible: false,
         dataForm: {
@@ -102,12 +102,12 @@
       }
     },
     methods: {
-      init () {
+      init() {
         this.visible = true
         this.getDataList()
       },
       // 获取数据列表
-      getDataList () {
+      getDataList() {
         this.dataListLoading = true
         this.$http({
           url: this.$http.adornUrl('/sys/scheduleLog/list'),
@@ -117,7 +117,7 @@
             'limit': this.pageSize,
             'jobId': this.dataForm.id
           })
-        }).then(({data}) => {
+        }).then(({ data }) => {
           if (data && data.code === 0) {
             this.dataList = data.page.list
             this.totalPage = data.page.totalCount
@@ -129,23 +129,23 @@
         })
       },
       // 每页数
-      sizeChangeHandle (val) {
+      sizeChangeHandle(val) {
         this.pageSize = val
         this.pageIndex = 1
         this.getDataList()
       },
       // 当前页
-      currentChangeHandle (val) {
+      currentChangeHandle(val) {
         this.pageIndex = val
         this.getDataList()
       },
       // 失败信息
-      showErrorInfo (id) {
+      showErrorInfo(id) {
         this.$http({
           url: this.$http.adornUrl(`/sys/scheduleLog/info/${id}`),
           method: 'get',
           params: this.$http.adornParams()
-        }).then(({data}) => {
+        }).then(({ data }) => {
           if (data && data.code === 0) {
             this.$alert(data.log.error)
           } else {

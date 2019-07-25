@@ -4,7 +4,7 @@
       <div class="site-content">
         <div class="login-main">
           <h3 class="login-title">管理员登录</h3>
-          <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" status-icon>
+          <el-form ref="dataForm" :model="dataForm" :rules="dataRule" status-icon @keyup.enter.native="dataFormSubmit()">
             <el-form-item prop="userName">
               <el-input v-model="dataForm.userName" placeholder="帐号"></el-input>
             </el-form-item>
@@ -18,7 +18,7 @@
                   </el-input>
                 </el-col>
                 <el-col :span="10" class="login-captcha">
-                  <img :src="captchaPath" @click="getCaptcha()" alt="">
+                  <img :src="captchaPath" alt="" @click="getCaptcha()">
                 </el-col>
               </el-row>
             </el-form-item>
@@ -35,7 +35,7 @@
 <script>
 import { getUUID } from '@/utils'
 export default {
-  data () {
+  data() {
     return {
       dataForm: {
         userName: '',
@@ -58,17 +58,17 @@ export default {
     }
   },
   watch: {
-    '$route' (to, from) {
+    '$route'(to, from) {
       console.log(1111)
       this.getCaptcha()
     }
   },
-  created () {
+  created() {
     this.getCaptcha()
   },
   methods: {
     // 提交表单
-    dataFormSubmit () {
+    dataFormSubmit() {
       this.refresh = false
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
@@ -82,7 +82,7 @@ export default {
               'uuid': this.dataForm.uuid,
               'code': this.dataForm.captcha
             })
-          }).then(({data}) => {
+          }).then(({ data }) => {
             if (data && data.token_type && data.access_token) {
               this.$cookie.set('token', data.token_type + data.access_token)
               this.$router.replace({ name: 'home' })
@@ -95,7 +95,7 @@ export default {
       })
     },
     // 获取验证码
-    getCaptcha () {
+    getCaptcha() {
       this.dataForm.uuid = getUUID()
       this.captchaPath = this.$http.adornUrl(`/captcha/${this.dataForm.uuid}`)
     }

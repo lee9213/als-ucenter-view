@@ -25,7 +25,10 @@
           <iframe
             v-if="item.type === 'iframe'"
             :src="item.iframeUrl"
-            width="100%" height="100%" frameborder="0" scrolling="yes">
+            width="100%"
+            height="100%"
+            frameborder="0"
+            scrolling="yes">
           </iframe>
           <keep-alive v-else>
             <router-view v-if="item.name === mainTabsActiveName" />
@@ -36,7 +39,7 @@
     <!-- 主入口标签页 e -->
     <el-card v-else :body-style="siteContentViewHeight">
       <keep-alive>
-        <router-view />
+        <router-view></router-view>
       </keep-alive>
     </el-card>
   </main>
@@ -45,27 +48,27 @@
 <script>
   import { isURL } from '@/utils/validate'
   export default {
-    data () {
+    data() {
       return {
       }
     },
     computed: {
       documentClientHeight: {
-        get () { return this.$store.state.common.documentClientHeight }
+        get() { return this.$store.state.common.documentClientHeight }
       },
       menuActiveName: {
-        get () { return this.$store.state.common.menuActiveName },
-        set (val) { this.$store.commit('common/updateMenuActiveName', val) }
+        get() { return this.$store.state.common.menuActiveName },
+        set(val) { this.$store.commit('common/updateMenuActiveName', val) }
       },
       mainTabs: {
-        get () { return this.$store.state.common.mainTabs },
-        set (val) { this.$store.commit('common/updateMainTabs', val) }
+        get() { return this.$store.state.common.mainTabs },
+        set(val) { this.$store.commit('common/updateMainTabs', val) }
       },
       mainTabsActiveName: {
-        get () { return this.$store.state.common.mainTabsActiveName },
-        set (val) { this.$store.commit('common/updateMainTabsActiveName', val) }
+        get() { return this.$store.state.common.mainTabsActiveName },
+        set(val) { this.$store.commit('common/updateMainTabsActiveName', val) }
       },
-      siteContentViewHeight () {
+      siteContentViewHeight() {
         var height = this.documentClientHeight - 50 - 30 - 2
         if (this.$route.meta.isTab) {
           height -= 40
@@ -76,14 +79,14 @@
     },
     methods: {
       // tabs, 选中tab
-      selectedTabHandle (tab) {
+      selectedTabHandle(tab) {
         tab = this.mainTabs.filter(item => item.name === tab.name)
         if (tab.length >= 1) {
           this.$router.push({ name: tab[0].name })
         }
       },
       // tabs, 删除tab
-      removeTabHandle (tabName) {
+      removeTabHandle(tabName) {
         this.mainTabs = this.mainTabs.filter(item => item.name !== tabName)
         if (this.mainTabs.length >= 1) {
           // 当前选中tab被删除
@@ -98,21 +101,21 @@
         }
       },
       // tabs, 关闭当前
-      tabsCloseCurrentHandle () {
+      tabsCloseCurrentHandle() {
         this.removeTabHandle(this.mainTabsActiveName)
       },
       // tabs, 关闭其它
-      tabsCloseOtherHandle () {
+      tabsCloseOtherHandle() {
         this.mainTabs = this.mainTabs.filter(item => item.name === this.mainTabsActiveName)
       },
       // tabs, 关闭全部
-      tabsCloseAllHandle () {
+      tabsCloseAllHandle() {
         this.mainTabs = []
         this.menuActiveName = ''
         this.$router.push({ name: 'home' })
       },
       // tabs, 刷新当前
-      tabsRefreshCurrentHandle () {
+      tabsRefreshCurrentHandle() {
         var tempTabName = this.mainTabsActiveName
         this.removeTabHandle(tempTabName)
         this.$nextTick(() => {

@@ -3,7 +3,7 @@
     title="云存储配置"
     :close-on-click-modal="false"
     :visible.sync="visible">
-    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="120px">
+    <el-form ref="dataForm" :model="dataForm" :rules="dataRule" label-width="120px" @keyup.enter.native="dataFormSubmit()">
       <el-form-item size="mini" label="存储类型">
         <el-radio-group v-model="dataForm.type">
           <el-radio :label="1">七牛</el-radio>
@@ -84,7 +84,7 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         visible: false,
         dataForm: {},
@@ -92,25 +92,25 @@
       }
     },
     methods: {
-      init (id) {
+      init(id) {
         this.visible = true
         this.$http({
           url: this.$http.adornUrl('/sys/oss/config'),
           method: 'get',
           params: this.$http.adornParams()
-        }).then(({data}) => {
+        }).then(({ data }) => {
           this.dataForm = data && data.code === 0 ? data.config : []
         })
       },
       // 表单提交
-      dataFormSubmit () {
+      dataFormSubmit() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
               url: this.$http.adornUrl('/sys/oss/saveConfig'),
               method: 'post',
               data: this.$http.adornData(this.dataForm)
-            }).then(({data}) => {
+            }).then(({ data }) => {
               if (data && data.code === 0) {
                 this.$message({
                   message: '操作成功',

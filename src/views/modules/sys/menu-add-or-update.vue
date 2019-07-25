@@ -3,10 +3,10 @@
     :title="!dataForm.id ? '新增' : '修改'"
     :close-on-click-modal="false"
     :visible.sync="visible">
-    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    <el-form ref="dataForm" :model="dataForm" :rules="dataRule" label-width="80px" @keyup.enter.native="dataFormSubmit()">
       <el-form-item label="类型" prop="type">
         <el-radio-group v-model="dataForm.type">
-          <el-radio v-for="(type, index) in dataForm.typeList" :label="index" :key="index">{{ type }}</el-radio>
+          <el-radio v-for="(type, index) in dataForm.typeList" :key="index" :label="index">{{ type }}</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item :label="dataForm.typeList[dataForm.type] + '名称'" prop="name">
@@ -18,14 +18,14 @@
           placement="bottom-start"
           trigger="click">
           <el-tree
+            ref="menuListTree"
             :data="menuList"
             :props="menuListTreeProps"
             node-key="menuId"
-            ref="menuListTree"
-            @current-change="menuListTreeCurrentChangeHandle"
             :default-expand-all="true"
             :highlight-current="true"
-            :expand-on-click-node="false">
+            :expand-on-click-node="false"
+            @current-change="menuListTreeCurrentChangeHandle">
           </el-tree>
         </el-popover>
         <el-input v-model="dataForm.parentName" v-popover:menuListPopover :readonly="true" placeholder="点击选择上级菜单" class="menu-list__input"></el-input>
@@ -51,8 +51,8 @@
                 <el-button
                   v-for="(item, index) in iconList"
                   :key="index"
-                  @click="iconActiveHandle(item)"
-                  :class="{ 'is-active': item === dataForm.icon }">
+                  :class="{ 'is-active': item === dataForm.icon }"
+                  @click="iconActiveHandle(item)">
                   <icon-svg :name="item"></icon-svg>
                 </el-button>
               </div>
@@ -79,7 +79,7 @@
   import { treeDataTranslate } from '@/utils'
   import Icon from '@/icons'
   export default {
-    data () {
+    data() {
       var validateUrl = (rule, value, callback) => {
         if (this.dataForm.type === 1 && !/\S/.test(value)) {
           callback(new Error('菜单URL不能为空'))
@@ -120,17 +120,17 @@
         }
       }
     },
-    created () {
+    created() {
       this.iconList = Icon.getNameList()
     },
     methods: {
-      init (id) {
+      init(id) {
         this.dataForm.id = id || 0
         this.$http({
           url: this.$http.adornUrl('/sys/menu/select'),
           method: 'get',
           params: this.$http.adornParams()
-        }).then(({data}) => {
+        }).then(({ data }) => {
           this.menuList = treeDataTranslate(data.menuList, 'menuId')
         }).then(() => {
           this.visible = true
@@ -147,7 +147,7 @@
               url: this.$http.adornUrl(`/sys/menu/info/${this.dataForm.id}`),
               method: 'get',
               params: this.$http.adornParams()
-            }).then(({data}) => {
+            }).then(({ data }) => {
               this.dataForm.id = data.menu.menuId
               this.dataForm.type = data.menu.type
               this.dataForm.name = data.menu.name
@@ -162,21 +162,21 @@
         })
       },
       // 菜单树选中
-      menuListTreeCurrentChangeHandle (data, node) {
+      menuListTreeCurrentChangeHandle(data, node) {
         this.dataForm.parentId = data.menuId
         this.dataForm.parentName = data.name
       },
       // 菜单树设置当前选中节点
-      menuListTreeSetCurrentNode () {
+      menuListTreeSetCurrentNode() {
         this.$refs.menuListTree.setCurrentKey(this.dataForm.parentId)
         this.dataForm.parentName = (this.$refs.menuListTree.getCurrentNode() || {})['name']
       },
       // 图标选中
-      iconActiveHandle (iconName) {
+      iconActiveHandle(iconName) {
         this.dataForm.icon = iconName
       },
       // 表单提交
-      dataFormSubmit () {
+      dataFormSubmit() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
@@ -192,7 +192,7 @@
                 'orderNum': this.dataForm.orderNum,
                 'icon': this.dataForm.icon
               })
-            }).then(({data}) => {
+            }).then(({ data }) => {
               if (data && data.code === 0) {
                 this.$message({
                   message: '操作成功',

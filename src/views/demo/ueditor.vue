@@ -4,14 +4,13 @@
       title="提示："
       type="warning"
       :closable="false">
-      <div slot-scope="description">
+      <div slot-scope="">
         <p class="el-alert__description">1. 此Demo只提供UEditor官方使用文档，入门部署和体验功能。具体使用请参考：http://fex.baidu.com/ueditor/</p>
         <p class="el-alert__description">2. 浏览器控制台报错“请求后台配置项http错误，上传功能将不能正常使用！”，此错需要后台提供上传接口方法（赋值给serverUrl属性）</p>
       </div>
     </el-alert>
 
     <script :id="ueId" class="ueditor-box" type="text/plain" style="width: 100%; height: 260px;">hello world!</script>
-    
     <!-- 获取内容 -->
     <p><el-button @click="getContent()">获得内容</el-button></p>
     <el-dialog
@@ -29,7 +28,7 @@
 <script>
   import ueditor from 'ueditor'
   export default {
-    data () {
+    data() {
       return {
         ue: null,
         ueId: `J_ueditorBox_${new Date().getTime()}`,
@@ -37,14 +36,14 @@
         dialogVisible: false
       }
     },
-    mounted () {
+    mounted() {
       this.ue = ueditor.getEditor(this.ueId, {
         // serverUrl: '', // 服务器统一请求接口路径
         zIndex: 3000
       })
     },
     methods: {
-      getContent () {
+      getContent() {
         this.dialogVisible = true
         this.ue.ready(() => {
           this.ueContent = this.ue.getContent()

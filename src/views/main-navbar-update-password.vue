@@ -3,18 +3,18 @@
     title="修改密码"
     :visible.sync="visible"
     :append-to-body="true">
-    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    <el-form ref="dataForm" :model="dataForm" :rules="dataRule" label-width="80px" @keyup.enter.native="dataFormSubmit()">
       <el-form-item label="账号">
         <span>{{ userName }}</span>
       </el-form-item>
       <el-form-item label="原密码" prop="password">
-        <el-input type="password" v-model="dataForm.password"></el-input>
+        <el-input v-model="dataForm.password" type="password"></el-input>
       </el-form-item>
       <el-form-item label="新密码" prop="newPassword">
-        <el-input type="password" v-model="dataForm.newPassword"></el-input>
+        <el-input v-model="dataForm.newPassword" type="password"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="confirmPassword">
-        <el-input type="password" v-model="dataForm.confirmPassword"></el-input>
+        <el-input v-model="dataForm.confirmPassword" type="password"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -27,7 +27,7 @@
 <script>
   import { clearLoginInfo } from '@/utils'
   export default {
-    data () {
+    data() {
       var validateConfirmPassword = (rule, value, callback) => {
         if (this.dataForm.newPassword !== value) {
           callback(new Error('确认密码与新密码不一致'))
@@ -58,23 +58,23 @@
     },
     computed: {
       userName: {
-        get () { return this.$store.state.user.name }
+        get() { return this.$store.state.user.name }
       },
       mainTabs: {
-        get () { return this.$store.state.common.mainTabs },
-        set (val) { this.$store.commit('common/updateMainTabs', val) }
+        get() { return this.$store.state.common.mainTabs },
+        set(val) { this.$store.commit('common/updateMainTabs', val) }
       }
     },
     methods: {
       // 初始化
-      init () {
+      init() {
         this.visible = true
         this.$nextTick(() => {
           this.$refs['dataForm'].resetFields()
         })
       },
       // 表单提交
-      dataFormSubmit () {
+      dataFormSubmit() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
@@ -84,7 +84,7 @@
                 'password': this.dataForm.password,
                 'newPassword': this.dataForm.newPassword
               })
-            }).then(({data}) => {
+            }).then(({ data }) => {
               if (data && data.code === 0) {
                 this.$message({
                   message: '操作成功',

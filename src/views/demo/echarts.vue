@@ -4,7 +4,7 @@
       title="提示："
       type="warning"
       :closable="false">
-      <div slot-scope="description">
+      <div slot-scope="">
         <p class="el-alert__description">1. 此Demo只提供ECharts官方使用文档，入门部署和体验功能。具体使用请参考：http://echarts.baidu.com/index.html</p>
       </div>
     </el-alert>
@@ -37,7 +37,7 @@
 <script>
   import echarts from 'echarts'
   export default {
-    data () {
+    data() {
       return {
         chartLine: null,
         chartBar: null,
@@ -45,13 +45,13 @@
         chartScatter: null
       }
     },
-    mounted () {
+    mounted() {
       this.initChartLine()
       this.initChartBar()
       this.initChartPie()
       this.initChartScatter()
     },
-    activated () {
+    activated() {
       // 由于给echart添加了resize事件, 在组件激活时需要重新resize绘画一次, 否则出现空白bug
       if (this.chartLine) {
         this.chartLine.resize()
@@ -68,7 +68,7 @@
     },
     methods: {
       // 折线图
-      initChartLine () {
+      initChartLine() {
         var option = {
           'title': {
             'text': '折线图堆叠'
@@ -77,7 +77,7 @@
             'trigger': 'axis'
           },
           'legend': {
-            'data': [ '邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎' ]
+            'data': ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
           },
           'grid': {
             'left': '3%',
@@ -93,7 +93,7 @@
           'xAxis': {
             'type': 'category',
             'boundaryGap': false,
-            'data': [ '周一', '周二', '周三', '周四', '周五', '周六', '周日' ]
+            'data': ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
           },
           'yAxis': {
             'type': 'value'
@@ -103,31 +103,31 @@
               'name': '邮件营销',
               'type': 'line',
               'stack': '总量',
-              'data': [ 120, 132, 101, 134, 90, 230, 210 ]
+              'data': [120, 132, 101, 134, 90, 230, 210]
             },
             {
               'name': '联盟广告',
               'type': 'line',
               'stack': '总量',
-              'data': [ 220, 182, 191, 234, 290, 330, 310 ]
+              'data': [220, 182, 191, 234, 290, 330, 310]
             },
             {
               'name': '视频广告',
               'type': 'line',
               'stack': '总量',
-              'data': [ 150, 232, 201, 154, 190, 330, 410 ]
+              'data': [150, 232, 201, 154, 190, 330, 410]
             },
             {
               'name': '直接访问',
               'type': 'line',
               'stack': '总量',
-              'data': [ 320, 332, 301, 334, 390, 330, 320 ]
+              'data': [320, 332, 301, 334, 390, 330, 320]
             },
             {
               'name': '搜索引擎',
               'type': 'line',
               'stack': '总量',
-              'data': [ 820, 932, 901, 934, 1290, 1330, 1320 ]
+              'data': [820, 932, 901, 934, 1290, 1330, 1320]
             }
           ]
         }
@@ -138,7 +138,7 @@
         })
       },
       // 柱状图
-      initChartBar () {
+      initChartBar() {
         var option = {
           tooltip: {
             trigger: 'axis',
@@ -239,7 +239,7 @@
         })
       },
       // 饼状图
-      initChartPie () {
+      initChartPie() {
         var option = {
           backgroundColor: '#2c343c',
           title: {
@@ -274,7 +274,7 @@
                 { value: 274, name: '联盟广告' },
                 { value: 235, name: '视频广告' },
                 { value: 400, name: '搜索引擎' }
-              ].sort(function (a, b) { return a.value - b.value }),
+              ].sort(function(a, b) { return a.value - b.value }),
               roseType: 'radius',
               label: {
                 normal: {
@@ -302,7 +302,7 @@
               },
               animationType: 'scale',
               animationEasing: 'elasticOut',
-              animationDelay: function (idx) {
+              animationDelay: function(idx) {
                 return Math.random() * 200
               }
             }
@@ -315,7 +315,7 @@
         })
       },
       // 散点图
-      initChartScatter () {
+      initChartScatter() {
         var option = {
           backgroundColor: new echarts.graphic.RadialGradient(0.3, 0.3, 0.8, [
             { offset: 0, color: '#f7f8fa' },
@@ -368,13 +368,13 @@
                 [37062, 75.4, 252847810, 'United States', 1990]
               ],
               type: 'scatter',
-              symbolSize: function (data) {
+              symbolSize: function(data) {
                 return Math.sqrt(data[2]) / 5e2
               },
               label: {
                 emphasis: {
                   show: true,
-                  formatter: function (param) {
+                  formatter: function(param) {
                     return param.data[3]
                   },
                   position: 'top'
@@ -416,13 +416,13 @@
                 [53354, 79.1, 321773631, 'United States', 2015]
               ],
               type: 'scatter',
-              symbolSize: function (data) {
+              symbolSize: function(data) {
                 return Math.sqrt(data[2]) / 5e2
               },
               label: {
                 emphasis: {
                   show: true,
-                  formatter: function (param) {
+                  formatter: function(param) {
                     return param.data[3]
                   },
                   position: 'top'
