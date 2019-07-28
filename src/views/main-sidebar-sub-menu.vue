@@ -1,6 +1,6 @@
 <template>
   <el-submenu
-    v-if="menu.list && menu.list.length >= 1"
+    v-if="menu.children && menu.children.length >= 1"
     :index="menu.menuId + ''"
     :popper-class="'site-sidebar--' + sidebarLayoutSkin + '-popper'">
     <template slot="title">
@@ -8,7 +8,7 @@
       <span>{{ menu.name }}</span>
     </template>
     <sub-menu
-      v-for="item in menu.list"
+      v-for="item in menu.children"
       :key="item.menuId"
       :menu="item"
       :dynamicMenuRoutes="dynamicMenuRoutes">
@@ -46,7 +46,7 @@
     methods: {
       // 通过menuId与动态(菜单)路由进行匹配跳转至指定路由
       gotoRouteHandle(menu) {
-        var route = this.dynamicMenuRoutes.filter(item => item.meta.menuId === menu.menuId)
+        var route = this.dynamicMenuRoutes.filter(item => item.meta.menuId === menu.id)
         if (route.length >= 1) {
           this.$router.push({ name: route[0].name })
         }

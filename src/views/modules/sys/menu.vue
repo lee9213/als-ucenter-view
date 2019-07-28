@@ -109,7 +109,6 @@
           method: 'post',
           params: this.$http.adornParams()
         }).then(({ data }) => {
-          debugger
           this.dataList = treeDataTranslate(data, 'id')
           this.dataListLoading = false
         })

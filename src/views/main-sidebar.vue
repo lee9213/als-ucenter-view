@@ -26,7 +26,7 @@
         </el-submenu>
         <sub-menu
           v-for="menu in menuList"
-          :key="menu.menuId"
+          :key="menu.id"
           :menu="menu"
           :dynamicMenuRoutes="dynamicMenuRoutes">
         </sub-menu>

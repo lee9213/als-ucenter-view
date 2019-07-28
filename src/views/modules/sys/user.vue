@@ -23,7 +23,7 @@
         width="50">
       </el-table-column>
       <el-table-column
-        prop="userId"
+        prop="id"
         header-align="center"
         align="center"
         width="80"
@@ -92,6 +92,7 @@
 
 <script>
   import AddOrUpdate from './user-add-or-update'
+  // import { debug } from 'util'
   export default {
     components: {
       AddOrUpdate
@@ -118,17 +119,17 @@
       getDataList() {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/sys/user/list'),
-          method: 'get',
-          params: this.$http.adornParams({
-            'page': this.pageIndex,
-            'limit': this.pageSize,
+          url: this.$http.adornUrl('/sys/user/page'),
+          method: 'post',
+          data: this.$http.adornData({
+            'pageNum': this.pageIndex,
+            'pageSize': this.pageSize,
             'username': this.dataForm.userName
           })
         }).then(({ data }) => {
-          if (data && data.code === 0) {
-            this.dataList = data.page.list
-            this.totalPage = data.page.totalCount
+          if (data && data.status === 200) {
+            this.dataList = data.data.records
+            this.totalPage = data.data.total
           } else {
             this.dataList = []
             this.totalPage = 0

@@ -31,10 +31,7 @@ module.exports = {
       'after': true
     }],
     "vue/html-self-closing": "off",
-    "vue/html-closing-bracket-newline": ["error", {
-      "singleline": "never",
-      "multiline": "never"
-    }],
+    "vue/html-closing-bracket-newline": "off",
     "vue/attribute-hyphenation": "off",
     'block-spacing': [2, 'always'],
     'brace-style': [2, '1tbs', {
