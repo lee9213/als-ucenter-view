@@ -128,8 +128,8 @@
           })
         }).then(({ data }) => {
           if (data && data.status === 200) {
-            this.dataList = data.data.records
-            this.totalPage = data.data.total
+            this.dataList = data.content.records
+            this.totalPage = data.content.total
           } else {
             this.dataList = []
             this.totalPage = 0

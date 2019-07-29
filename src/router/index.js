@@ -63,16 +63,16 @@ router.beforeEach((to, from, next) => {
     next()
   } else {
     http({
-      url: http.adornUrl('/sys/menu/list'),
-      method: 'post',
+      url: http.adornUrl('/login/nav'),
+      method: 'get',
       params: http.adornParams()
     }).then(({ data }) => {
       if (data && data.status === 200) {
-        const menuList = data.data
-        fnAddDynamicMenuRoutes(menuList)
+        const content = data.content
+        fnAddDynamicMenuRoutes(content.menuList)
         router.options.isAddDynamicMenuRoutes = true
-        sessionStorage.setItem('menuList', JSON.stringify(menuList || '[]'))
-        sessionStorage.setItem('permissions', JSON.stringify(data.permissions || '[]'))
+        sessionStorage.setItem('menuList', JSON.stringify(content.menuList || '[]'))
+        sessionStorage.setItem('permissions', JSON.stringify(content.permissionList || '[]'))
         next({ ...to, replace: true })
       } else {
         sessionStorage.setItem('menuList', '[]')

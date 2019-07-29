@@ -59,11 +59,12 @@ http.adornUrl = (actionName) => {
  * @param {*} params 参数对象
  * @param {*} openDefultParams 是否开启默认参数?
  */
-http.adornParams = (params = {}, openDefultParams = true) => {
+http.adornParams = (params = {}, openDefultParams = true, contentType = 'json') => {
   var defaults = {
     't': new Date().getTime()
   }
-  return openDefultParams ? merge(defaults, params) : params
+  params = openDefultParams ? merge(defaults, params) : params
+  return contentType === 'json' ? JSON.stringify(params) : qs.stringify(params)
 }
 
 /**

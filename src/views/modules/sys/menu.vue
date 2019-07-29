@@ -38,9 +38,9 @@
         align="center"
         label="类型">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.type === 0" size="small">目录</el-tag>
-          <el-tag v-else-if="scope.row.type === 1" size="small" type="success">菜单</el-tag>
-          <el-tag v-else-if="scope.row.type === 2" size="small" type="info">按钮</el-tag>
+          <el-tag v-if="scope.row.type === 'directory'" size="small">目录</el-tag>
+          <el-tag v-else-if="scope.row.type === 'menu'" size="small" type="success">菜单</el-tag>
+          <el-tag v-else-if="scope.row.type === 'button'" size="small" type="info">按钮</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -109,7 +109,7 @@
           method: 'post',
           params: this.$http.adornParams()
         }).then(({ data }) => {
-          this.dataList = treeDataTranslate(data, 'id')
+          this.dataList = treeDataTranslate(data.content, 'id')
           this.dataListLoading = false
         })
       },

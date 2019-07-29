@@ -70,8 +70,8 @@
         }).then(({ data }) => {
           if (data && data.status === 200) {
             this.loading = false
-            this.userId = data.data.userId
-            this.userName = data.data.name
+            this.userId = data.content.userId
+            this.userName = data.content.name
           }
         })
       }
