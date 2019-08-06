@@ -13,22 +13,13 @@
         <el-input v-model="dataForm.name" :placeholder="dataForm.typeList[dataForm.type] + '名称'"></el-input>
       </el-form-item>
       <el-form-item label="上级菜单" prop="parentName">
-        <el-popover
-          ref="menuListPopover"
-          placement="bottom-start"
-          trigger="click">
-          <el-tree
-            ref="menuListTree"
-            :data="menuList"
-            :props="menuListTreeProps"
-            node-key="menuId"
-            :default-expand-all="true"
-            :highlight-current="true"
-            :expand-on-click-node="false"
-            @current-change="menuListTreeCurrentChangeHandle">
-          </el-tree>
-        </el-popover>
-        <el-input v-model="dataForm.parentName" v-popover:menuListPopover :readonly="true" placeholder="点击选择上级菜单" class="menu-list__input"></el-input>
+        <TreeSelect 
+          v-model="value" 
+          :options = "options" 
+          placeholder="请选择父菜单" 
+          :load-options="loadMenuTreeList" 
+          :async="true"
+          :disable-branch-nodes="true"/>
       </el-form-item>
       <el-form-item v-if="dataForm.type === 1" label="菜单路由" prop="url">
         <el-input v-model="dataForm.url" placeholder="菜单路由"></el-input>
@@ -78,7 +69,10 @@
 <script>
   import { treeDataTranslate } from '@/utils'
   import Icon from '@/icons'
+  import TreeSelect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   export default {
+    components: { TreeSelect },
     data() {
       var validateUrl = (rule, value, callback) => {
         if (this.dataForm.type === 1 && !/\S/.test(value)) {
@@ -117,21 +111,34 @@
         menuListTreeProps: {
           label: 'name',
           children: 'children'
-        }
+        },
+        value: null,
+        options: [{ id: 1, label: 'a', value: 'a', children: null }, { id: 2, label: 'b', value: 'b', children: null   }]
       }
     },
     created() {
       this.iconList = Icon.getNameList()
     },
     methods: {
-      init(id) {
-        this.dataForm.id = id || 0
+      loadMenuTreeList() {
         this.$http({
-          url: this.$http.adornUrl('/sys/menu/select'),
+          url: this.$http.adornUrl('/sys/menu/list/menu'),
           method: 'get',
           params: this.$http.adornParams()
         }).then(({ data }) => {
-          this.menuList = treeDataTranslate(data.menuList, 'menuId')
+
+        })
+      },
+      init(id) {
+        this.dataForm.id = id || 0
+        this.$http({
+          url: this.$http.adornUrl('/sys/menu/' + this.dataForm.id + '/detail'),
+          method: 'get',
+          params: this.$http.adornParams()
+        }).then(({ data }) => {
+          const content = data.content
+          console.log(content)
+          // this.menuList = treeDataTranslate(data.menuList, 'id')
         }).then(() => {
           this.visible = true
           this.$nextTick(() => {
@@ -140,7 +147,7 @@
         }).then(() => {
           if (!this.dataForm.id) {
             // 新增
-            this.menuListTreeSetCurrentNode()
+            // this.menuListTreeSetCurrentNode()
           } else {
             // 修改
             this.$http({

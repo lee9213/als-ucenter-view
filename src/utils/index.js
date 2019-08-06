@@ -16,7 +16,13 @@ export function getUUID() {
  * @param {*} key
  */
 export function isAuth(key) {
-  return JSON.parse(sessionStorage.getItem('permissions') || '[]').indexOf(key) !== -1 || false
+  const permissions = JSON.parse(sessionStorage.getItem('permissions') || '[]')
+  for (var permission of permissions) {
+    if (permission['code'] === key && permission['value'] === 1) {
+      return true
+    }
+  }
+  return false
 }
 
 /**

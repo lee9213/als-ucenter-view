@@ -63,7 +63,7 @@ router.beforeEach((to, from, next) => {
     next()
   } else {
     http({
-      url: http.adornUrl('/login/nav'),
+      url: http.adornUrl('/login/tree/menu/list'),
       method: 'get',
       params: http.adornParams()
     }).then(({ data }) => {
